@@ -27,7 +27,8 @@ export default async function FilePage({ params }) {
   return (
     <section className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <h1 className="break-all text-lg font-medium">{data.filename}</h1>
+        {/* null for a HubCDN file whose storage did not state its name */}
+        <h1 className="break-all text-lg font-medium">{data.filename ?? "File"}</h1>
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           {size && <Badge variant="secondary">{size}</Badge>}
           <span className="flex items-center gap-1.5">

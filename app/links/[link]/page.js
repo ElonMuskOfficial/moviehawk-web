@@ -10,8 +10,8 @@ import { resourceHref } from "@/lib/sites";
 
 export const metadata = { title: "Files" };
 
-// The one host whose files the API resolves to downloads; another host's file opens on its page.
-const RESOLVED_HOST = "hubcloud";
+// The hosts whose files the API resolves to downloads; another host's file opens on its page.
+const RESOLVED_HOSTS = ["hubcloud", "hubcdn"];
 
 // Step 2: the files a link leads to.
 export default async function LinkPage({ params }) {
@@ -26,7 +26,7 @@ export default async function LinkPage({ params }) {
         <RowList label="Files">
           {data.files.map((file) => (
             <li key={file.name}>
-              {file.host === RESOLVED_HOST ? (
+              {RESOLVED_HOSTS.includes(file.host) ? (
                 <Link href={resourceHref(file.name)} className={`${ROW} transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none`}>
                   <FileLabel file={file} />
                   <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
