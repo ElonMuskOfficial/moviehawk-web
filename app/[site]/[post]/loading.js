@@ -13,7 +13,7 @@ export default function Loading() {
           <Skeleton className="h-5 w-24" />
         </div>
       </div>
-      <RowListSkeleton rows={6} />
+      <RowListSkeleton rows={6} className="grid sm:grid-cols-2 lg:grid-cols-3" />
     </div>
   );
 }

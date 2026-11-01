@@ -47,10 +47,10 @@ export default async function PostPage({ params }) {
       <section className="flex flex-col gap-3">
         <h2 className="font-medium">Links</h2>
         {data.links.length ? (
-          <RowList label="Links">
+          <RowList label="Links" className="grid sm:grid-cols-2 lg:grid-cols-3">
             {data.links.map((link) => (
-              <li key={link.name}>
-                <Link href={resourceHref(link.name)} className={`${ROW} transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none`}>
+              <li key={link.name} className="flex">
+                <Link href={resourceHref(link.name)} className={`${ROW} w-full transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none`}>
                   <span className="min-w-0 flex-1 break-words text-sm">{link.label ?? "Link"}</span>
                   <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
                 </Link>
