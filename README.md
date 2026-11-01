@@ -25,8 +25,7 @@ needs no CORS.
 | `/[site]?page=` | 0. A site's posts | `GET /v1/sites/{site}/posts?pageToken=` |
 | `/[site]/search?q=&page=` | 0. Its search | `GET /v1/sites/{site}/search?q=&pageToken=` |
 | `/[site]/[post]` | 1. A post and its links | `GET /v1/sites/{site}/posts/{post}` |
-| `/links/[link]` | 2. The files a link leads to | `GET /v1/links/{link}/files` |
-| `/files/[file]` | 3. A file's downloads | `GET /v1/files/{file}` |
+| `/links/[link]` | 2. What a link opens: files to choose from, a file's downloads, or another site's page | `GET /v1/links/{link}` |
 
 An API name is the app's path (`links/...` → `/links/...`); a post's drops `sites/` and `posts/`
 (`sites/hdhub4u/posts/slug` → `/hdhub4u/slug`): `lib/sites.js`.

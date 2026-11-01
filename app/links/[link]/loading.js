@@ -1,13 +1,13 @@
 import { RowListSkeleton } from "@/components/RowList";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// A link's files load in up to 3 s: the gateways on the way are read one after another.
+// A link opens in 1 to 10 s: the pages on the way, then a file's download servers.
 export default function Loading() {
   return (
-    <div className="flex flex-col gap-3">
-      <Skeleton className="h-7 w-20" />
-      <RowListSkeleton rows={2} />
-      <p className="text-sm text-muted-foreground">Following the link to its files…</p>
+    <div className="flex flex-col gap-4">
+      <Skeleton className="h-7 w-3/4" />
+      <RowListSkeleton rows={3} />
+      <p className="text-sm text-muted-foreground">Opening the link… this can take up to 10 seconds.</p>
     </div>
   );
 }
