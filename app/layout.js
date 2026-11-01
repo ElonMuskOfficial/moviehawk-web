@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -23,7 +24,16 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <header className="border-b">
+          <div className="mx-auto flex h-14 w-full max-w-7xl items-center px-4">
+            <Link href="/" className="text-lg font-semibold tracking-tight">
+              Movie<span className="text-primary">Hawk</span>
+            </Link>
+          </div>
+        </header>
+        <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6">{children}</main>
+      </body>
     </html>
   );
 }
