@@ -12,7 +12,7 @@ export function PostGrid({ posts }) {
         <li key={post.name}>
           <Link href={postHref(post.name)} className="group flex flex-col gap-2 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
             <Poster url={post.posterUrl} className="transition group-hover:ring-2 group-hover:ring-primary" />
-            <span className="line-clamp-2 text-sm leading-snug">{post.title}</span>
+            <span className="break-words text-sm leading-snug">{post.title}</span>
           </Link>
         </li>
       ))}
