@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 const MESSAGES = {
   transient: { title: "The site didn't answer", retry: true },
   unrecognized: { title: "The site's page couldn't be read", retry: true },
-  unsupported: { title: "This host isn't supported yet", retry: false },
   invalidArgument: { title: "This link is broken", retry: false },
 };
 

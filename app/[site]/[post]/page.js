@@ -3,10 +3,10 @@ import { ChevronRight, ExternalLink } from "lucide-react";
 import { ApiError } from "@/components/ApiError";
 import { EmptyState } from "@/components/EmptyState";
 import { Poster } from "@/components/PostGrid";
-import { ROW, RowList } from "@/components/RowList";
+import { ROW_LINK, RowList } from "@/components/RowList";
 import { Badge } from "@/components/ui/badge";
 import { getPost } from "@/lib/api";
-import { findSite, resourceHref, safeDecode } from "@/lib/sites";
+import { findSite, linkHref, safeDecode } from "@/lib/sites";
 
 export async function generateMetadata({ params }) {
   const { site, post } = await params;
@@ -52,7 +52,7 @@ export default async function PostPage({ params }) {
                 1080p episode 6): both are shown, as the site shows them. */}
             {data.links.map((link, index) => (
               <li key={`${index}:${link.name}`} className="flex">
-                <Link href={resourceHref(link.name)} className={`${ROW} w-full transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none`}>
+                <Link href={linkHref(link.name)} className={`${ROW_LINK} w-full`}>
                   <span className="min-w-0 flex-1 break-words text-sm">{link.label ?? "Link"}</span>
                   <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
                 </Link>

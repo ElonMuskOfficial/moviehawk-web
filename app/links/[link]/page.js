@@ -3,11 +3,11 @@ import { ChevronRight, Clock, Download, ExternalLink, Play } from "lucide-react"
 import { ApiError } from "@/components/ApiError";
 import { CopyButton } from "@/components/CopyButton";
 import { EmptyState } from "@/components/EmptyState";
-import { ROW, RowList } from "@/components/RowList";
+import { ROW, ROW_LINK, RowList } from "@/components/RowList";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getLink } from "@/lib/api";
-import { formatSize, resourceHref } from "@/lib/sites";
+import { formatSize, linkHref } from "@/lib/sites";
 
 export async function generateMetadata({ params }) {
   const { link } = await params;
@@ -22,15 +22,13 @@ export default async function LinkPage({ params }) {
   const { link } = await params;
   const { data, error } = await getLink(link);
   if (error) return <ApiError error={error} />;
-  if (data.kind === "files") return <Files files={data.files} />;
-  if (data.kind === "file") return <File file={data} />;
+  if (data.kind === "files") return <FileList files={data.files} />;
+  if (data.kind === "file") return <Downloads file={data} />;
   return <External link={data} />;
 }
 
-const OPENS = "transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none";
-
-/** @param {{ files: import("@/lib/api").LinkFile[] }} props */
-function Files({ files }) {
+/** @param {{ files: import("@/lib/api").ListedFile[] }} props */
+function FileList({ files }) {
   return (
     <section className="flex flex-col gap-3">
       <h1 className="text-lg font-medium">Files</h1>
@@ -38,7 +36,7 @@ function Files({ files }) {
         <RowList label="Files">
           {files.map((file) => (
             <li key={file.name}>
-              <Link href={resourceHref(file.name)} className={`${ROW} ${OPENS}`}>
+              <Link href={linkHref(file.name)} className={ROW_LINK}>
                 <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                   <Badge variant="secondary">{file.host}</Badge>
                   {/* null on a page of one file's hosts, shown as logos */}
@@ -56,8 +54,8 @@ function Files({ files }) {
   );
 }
 
-/** @param {{ file: import("@/lib/api").LinkToFile }} props */
-function File({ file }) {
+/** @param {{ file: import("@/lib/api").FileLink }} props */
+function Downloads({ file }) {
   // A direct download answers with the file; a page leads to it. Direct ones first, and only the
   // first is the page's main action.
   const downloads = [...file.downloads].sort((a, b) => (a.kind === b.kind ? 0 : a.kind === "direct" ? -1 : 1));
@@ -117,7 +115,7 @@ function File({ file }) {
   );
 }
 
-/** @param {{ link: import("@/lib/api").LinkToPage }} props */
+/** @param {{ link: import("@/lib/api").ExternalLink }} props */
 function External({ link }) {
   return (
     <section className="flex flex-col gap-3">
