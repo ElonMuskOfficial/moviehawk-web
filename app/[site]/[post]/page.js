@@ -48,8 +48,10 @@ export default async function PostPage({ params }) {
         <h2 className="font-medium">Links</h2>
         {data.links.length ? (
           <RowList label="Links" className="grid sm:grid-cols-2 lg:grid-cols-3">
-            {data.links.map((link) => (
-              <li key={link.name} className="flex">
+            {/* A post can link one URL twice (4KHDHub's MobLand: one file under its 2160p and its
+                1080p episode 6): both are shown, as the site shows them. */}
+            {data.links.map((link, index) => (
+              <li key={`${index}:${link.name}`} className="flex">
                 <Link href={resourceHref(link.name)} className={`${ROW} w-full transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none`}>
                   <span className="min-w-0 flex-1 break-words text-sm">{link.label ?? "Link"}</span>
                   <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />

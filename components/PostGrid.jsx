@@ -8,8 +8,8 @@ export const GRID = "grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:gri
 export function PostGrid({ posts }) {
   return (
     <ul className={GRID}>
-      {posts.map((post) => (
-        <li key={post.name}>
+      {posts.map((post, index) => (
+        <li key={`${index}:${post.name}`}>
           <Link href={postHref(post.name)} className="group flex flex-col gap-2 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
             <Poster url={post.posterUrl} className="transition group-hover:ring-2 group-hover:ring-primary" />
             <span className="break-words text-sm leading-snug">{post.title}</span>

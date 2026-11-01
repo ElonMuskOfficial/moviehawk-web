@@ -39,7 +39,7 @@ export default async function FilePage({ params }) {
       {downloads.length ? (
         <RowList label="Downloads">
           {downloads.map((download, index) => (
-            <li key={download.url} className={`${ROW} flex-col items-stretch sm:flex-row sm:items-center`}>
+            <li key={`${index}:${download.url}`} className={`${ROW} flex-col items-stretch sm:flex-row sm:items-center`}>
               <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                 <span className="text-sm font-medium">{download.label ?? download.server}</span>
                 <Badge variant="outline">{download.kind === "direct" ? "direct" : "page"}</Badge>
