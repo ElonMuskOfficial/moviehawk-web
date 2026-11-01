@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import { TriangleAlert, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// What a user can do about each code (the API's README, Errors). Only a site that did not answer,
-// or a page it could not read, may pass on a second try.
+// What a user can do about each code (the API's README, Errors). Only a site that was not
+// available (no answer, or an HTTP error such as 403 or 503), or a page it could not read, may pass on
+// a second try. The detail under the title says which.
 const MESSAGES = {
-  transient: { title: "The site didn't answer", retry: true },
+  transient: { title: "The site isn't available right now", retry: true },
   unrecognized: { title: "The site's page couldn't be read", retry: true },
   invalidArgument: { title: "This link is broken", retry: false },
 };
