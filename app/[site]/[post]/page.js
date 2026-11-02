@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
 
 // A post and its download links, in its site's sections and lines. On a wide screen, two columns:
 // the poster on the left, kept in view; the post on the right, a column of text that the eye reads
-// straight down. On a narrow one, a small poster beside the title, the links under both.
+// straight down. On a narrow one, one column: the title, its details, the poster, then the links.
 export default async function PostPage({ params }) {
   const { site, post } = await params;
   const { data, error } = await getPost(site, safeDecode(post));
