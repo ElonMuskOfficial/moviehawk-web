@@ -2,23 +2,30 @@
 
 import { useState } from "react";
 
+const LABELS = { idle: "Copy", copied: "Copied", failed: "Couldn't copy" };
+
 /**
- * Copies a text, as a text action like the page's links: "Copy", then "Copied" for 2 s.
+ * Copies a text, as a text action like the page's links: "Copy", then for 2 s "Copied", or
+ * "Couldn't copy" when the browser refuses (no clipboard outside HTTPS, a denied permission).
  *
  * @param {{ text: string, className?: string }} props className: its look, as the page's links
  */
 export function CopyButton({ text, className = "" }) {
-  const [copied, setCopied] = useState(false);
+  const [state, setState] = useState("idle");
 
   async function copy() {
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(text);
+      setState("copied");
+    } catch {
+      setState("failed");
+    }
+    setTimeout(() => setState("idle"), 2000);
   }
 
   return (
     <button type="button" onClick={copy} aria-live="polite" className={`cursor-pointer ${className}`}>
-      {copied ? "Copied" : "Copy"}
+      {LABELS[state]}
     </button>
   );
 }

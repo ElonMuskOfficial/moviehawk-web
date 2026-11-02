@@ -8,13 +8,18 @@ export const TEXT_LINK = "py-1 font-medium text-primary underline-offset-4 outli
 
 /** @typedef {import("@/lib/api").Link} ApiLink @typedef {{ title: string | null, tags: string[], links: ApiLink[] }} ApiLine */
 
+// A URL as a page writes it out, without its scheme and "www.", in lower case: "https://www.Gofile.io/d/abc"
+// is "gofile.io/d/abc".
+const bare = (text) => text.toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "");
+
 /**
  * What a link is called: its own text; or its host, for a logo (no text) or a mirror whose text is
- * its URL ("gofile.io/d/abc": the URL says no more than its host).
+ * its URL, written out with or without its scheme ("gofile.io/d/abc": the URL says no more than its
+ * host).
  *
  * @param {ApiLink} link
  */
-export const nameOf = (link) => (link.label && !link.url.includes(link.label) ? link.label : link.host);
+export const nameOf = (link) => (link.label && !bare(link.url).startsWith(bare(link.label)) ? link.label : link.host);
 
 /** @param {ApiLink[]} links A line's links, as text: "Drive · Instant · Direct". */
 export function TextLinks({ links }) {

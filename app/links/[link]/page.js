@@ -50,8 +50,8 @@ function FileList({ page }) {
         <h1 className="break-words text-lg font-semibold leading-snug sm:text-2xl">{page.title ?? "Files"}</h1>
         {/* What the page states of itself (a pack's "Includes 9 files", "Total Size: 23.61 GB"), then its source. */}
         <p className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
-          {page.tags.map((tag) => (
-            <Fragment key={tag}>
+          {page.tags.map((tag, index) => (
+            <Fragment key={index}>
               <span>{tag}</span>
               <span aria-hidden>·</span>
             </Fragment>
@@ -78,7 +78,7 @@ function FileList({ page }) {
 function DownloadLine({ download }) {
   return (
     <li className="flex min-h-11 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-2 text-sm">
-      <span className="min-w-0 break-words">{download.label ?? download.server}</span>
+      <span className="min-w-0 break-words">{download.label}</span>
       {download.kind === "direct" ? (
         <span className="flex items-baseline gap-x-2">
           <a href={download.url} rel="noreferrer" className={TEXT_LINK}>
