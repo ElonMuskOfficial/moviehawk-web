@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
-/** @param {{ text: string }} props */
-export function CopyButton({ text }) {
+/**
+ * Copies a text, as a text action like the page's links: "Copy", then "Copied" for 2 s.
+ *
+ * @param {{ text: string, className?: string }} props className: its look, as the page's links
+ */
+export function CopyButton({ text, className = "" }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -15,16 +17,8 @@ export function CopyButton({ text }) {
   }
 
   return (
-    <Button variant="outline" onClick={copy} aria-live="polite">
-      {copied ? <Check aria-hidden /> : <Copy aria-hidden />}
-      {copied ? (
-        "Copied"
-      ) : (
-        <>
-          <span className="sm:hidden">Copy</span>
-          <span className="hidden sm:inline">Copy link</span>
-        </>
-      )}
-    </Button>
+    <button type="button" onClick={copy} aria-live="polite" className={`cursor-pointer ${className}`}>
+      {copied ? "Copied" : "Copy"}
+    </button>
   );
 }

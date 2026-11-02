@@ -6,6 +6,9 @@ export const ROW = "flex min-h-14 items-center gap-3 rounded-lg border bg-card p
 // A row that is a link to the next step.
 export const ROW_LINK = `${ROW} transition hover:border-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 outline-none`;
 
+// A link as text, not a box: a post's, a page of files', a download's. Its padding keeps it easy to tap.
+export const TEXT_LINK = "py-1 font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline";
+
 /** @param {{ children: React.ReactNode, label: string, className?: string }} props className: the list's layout, a column by default */
 export function RowList({ children, label, className = "flex flex-col" }) {
   return (
