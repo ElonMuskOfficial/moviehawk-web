@@ -28,19 +28,19 @@ function FileRow({ line }) {
 }
 
 /**
- * An episode of a season's group: its number, its size in a column of its own, then its servers;
- * its file's name on hover.
+ * An episode of a season's group, as every line of links: its number and its size on the left
+ * ("Episode-01 · 4.01 GB"), its servers on the right; its file's name on hover.
  *
  * @param {{ line: Line }} props
  */
 function EpisodeRow({ line }) {
   return (
-    <li className="grid min-h-11 grid-cols-[6rem_6rem_1fr] items-baseline gap-x-4 py-2 text-sm max-sm:grid-cols-[5.5rem_1fr] max-sm:gap-y-1" title={line.file ?? undefined}>
-      <span>{line.title ?? "Episode"}</span>
-      <span className="text-right tabular-nums text-muted-foreground max-sm:text-left">{line.tags.join(" · ")}</span>
-      <span className="max-sm:col-span-2">
-        <TextLinks links={line.links} />
+    <li className="flex min-h-11 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-2 text-sm" title={line.file ?? undefined}>
+      <span>
+        {line.title ?? "Episode"}
+        {line.tags.length > 0 && <span className="text-muted-foreground"> · {line.tags.join(" · ")}</span>}
       </span>
+      <TextLinks links={line.links} />
     </li>
   );
 }
