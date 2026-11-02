@@ -3,8 +3,9 @@ import { ChevronRight, ExternalLink } from "lucide-react";
 import { ApiError } from "@/components/ApiError";
 import { EmptyState } from "@/components/EmptyState";
 import { Poster } from "@/components/PostGrid";
-import { ROW_LINK, RowList } from "@/components/RowList";
+import { ROW, ROW_LINK, RowList } from "@/components/RowList";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { getPost } from "@/lib/api";
 import { findSite, linkHref, safeDecode } from "@/lib/sites";
 
@@ -14,7 +15,41 @@ export async function generateMetadata({ params }) {
   return { title: data?.title, openGraph: data?.posterUrl ? { images: [data.posterUrl] } : undefined };
 }
 
-// Step 1: a post and its links.
+/**
+ * One line of a post's buttons, as its site lays it out. A button alone that names its own file
+ * ("720p x264 [850MB]") is the whole row, as a link; any other line is its title ("720p", a file),
+ * then its buttons ("Drive", "Instant", "WATCH").
+ *
+ * @param {{ line: import("@/lib/api").Line }} props
+ */
+function LineRow({ line }) {
+  const [only] = line.links;
+  if (line.links.length === 1 && (line.title === null || line.title === only.label)) {
+    return (
+      <li className="flex">
+        <Link href={linkHref(only.name)} className={`${ROW_LINK} w-full`}>
+          <span className="min-w-0 flex-1 break-words text-sm">{only.label ?? "Link"}</span>
+          <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+        </Link>
+      </li>
+    );
+  }
+  return (
+    <li className={`${ROW} flex-wrap`}>
+      {line.title && <span className="min-w-0 flex-1 basis-32 break-words text-sm">{line.title}</span>}
+      <div className="flex flex-wrap gap-2">
+        {/* A line can link one URL twice: both are shown, as the site shows them. */}
+        {line.links.map((link, index) => (
+          <Button key={`${index}:${link.name}`} asChild variant="secondary" size="sm">
+            <Link href={linkHref(link.name)}>{link.label ?? "Link"}</Link>
+          </Button>
+        ))}
+      </div>
+    </li>
+  );
+}
+
+// Step 1: a post and its download links, in its site's sections and lines.
 export default async function PostPage({ params }) {
   const { site, post } = await params;
   const { data, error } = await getPost(site, safeDecode(post));
@@ -46,19 +81,21 @@ export default async function PostPage({ params }) {
 
       <section className="flex flex-col gap-3">
         <h2 className="font-medium">Links</h2>
-        {data.links.length ? (
-          <RowList label="Links" className="grid sm:grid-cols-2 lg:grid-cols-3">
+        {data.sections.length ? (
+          <div className="flex flex-col gap-6">
             {/* A post can link one URL twice (4KHDHub's MobLand: one file under its 2160p and its
-                1080p episode 6): both are shown, as the site shows them. */}
-            {data.links.map((link, index) => (
-              <li key={`${index}:${link.name}`} className="flex">
-                <Link href={linkHref(link.name)} className={`${ROW_LINK} w-full`}>
-                  <span className="min-w-0 flex-1 break-words text-sm">{link.label ?? "Link"}</span>
-                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-                </Link>
-              </li>
+                1080p episode 6): both are shown, as the site shows them; so keys are positions. */}
+            {data.sections.map((section, index) => (
+              <div key={index} className="flex flex-col gap-2">
+                {section.title && <h3 className="text-sm font-medium text-muted-foreground">{section.title}</h3>}
+                <RowList label={section.title ?? "Links"} className="grid sm:grid-cols-2 lg:grid-cols-3">
+                  {section.lines.map((line, lineIndex) => (
+                    <LineRow key={lineIndex} line={line} />
+                  ))}
+                </RowList>
+              </div>
             ))}
-          </RowList>
+          </div>
         ) : (
           <EmptyState title="This post has no links yet">A series often gets its episodes later.</EmptyState>
         )}
