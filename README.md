@@ -71,4 +71,6 @@ page: "Opening Streamtape…" while the browser goes there, with the link in cas
 - **Posters are plain `<img>`**, not `next/image`: they come from many hosts, and Vercel's image
   optimization would count each one.
 - **Downloads**: a `direct` one has *Download*, *Copy link* and *Open in VLC* (most files are MKV
-  with DD5.1 audio, which browsers do not play); a `page` one opens in a new tab.
+  with DD5.1 audio, which browsers do not play); a `page` one opens in a new tab. *VLC* is a link
+  where one opens VLC (`VlcLink`): on Android an `intent:` URL to `org.videolan.vlc`, on iOS
+  `vlc://`; a desktop has none, so there it is left out (copy, then paste into VLC).

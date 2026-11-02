@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { ExternalRedirect } from "@/components/ExternalRedirect";
 import { LinkSection, TEXT_LINK } from "@/components/LinkLine";
 import { SourceLink } from "@/components/SourceLink";
+import { VlcLink } from "@/components/VlcLink";
 import { getLink } from "@/lib/api";
 import { formatSize, hostLabel, postHref } from "@/lib/sites";
 
@@ -73,7 +74,7 @@ function FileList({ page }) {
 
 /**
  * One way to download, as a line of text: its server on the left, its actions on the right. A
- * direct download (the file itself): Download · Copy · VLC; a page that leads to the file: Open ↗.
+ * direct download (the file itself): Download · Copy · VLC (on a phone); a page that leads to the file: Open ↗.
  *
  * @param {{ download: import("@/lib/api").Download }} props
  */
@@ -88,8 +89,7 @@ function DownloadLine({ download }) {
           </a>
           <span className="text-muted-foreground" aria-hidden>·</span>
           <CopyButton text={download.url} className={TEXT_LINK} />
-          <span className="text-muted-foreground" aria-hidden>·</span>
-          <a href={`vlc://${download.url}`} className={TEXT_LINK}>VLC</a>
+          <VlcLink url={download.url} className={TEXT_LINK} />
         </span>
       ) : (
         <a href={download.url} target="_blank" rel="noreferrer" className={TEXT_LINK}>Open ↗</a>
