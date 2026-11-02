@@ -1,8 +1,10 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { TEXT_LINK } from "@/components/RowList";
 import { linkHref } from "@/lib/sites";
+
+// A link as text, not a box: a post's, a page of files', a download's. Its padding keeps it easy to tap.
+export const TEXT_LINK = "py-1 font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline";
 
 /** @typedef {import("@/lib/api").Link} ApiLink @typedef {{ title: string | null, tags: string[], links: ApiLink[] }} ApiLine */
 
