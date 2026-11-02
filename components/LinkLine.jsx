@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { LinkPending } from "@/components/LinkPending";
 import { linkHref } from "@/lib/sites";
 
 // A link as text, not a box: a post's, a page of files', a download's. Its padding keeps it easy to tap.
@@ -29,7 +30,7 @@ export function TextLinks({ links }) {
       {links.map((link, index) => (
         <Fragment key={`${index}:${link.name}`}>
           {index > 0 && <span className="text-muted-foreground" aria-hidden>·</span>}
-          <Link href={linkHref(link.name)} className={TEXT_LINK}>{nameOf(link)}</Link>
+          <Link href={linkHref(link.name)} className={TEXT_LINK}><LinkPending>{nameOf(link)}</LinkPending></Link>
         </Fragment>
       ))}
     </span>
@@ -52,11 +53,11 @@ export function LinkLine({ line, showHost = false }) {
     return (
       <li>
         <Link href={linkHref(only.name)} className="group flex min-h-11 items-center gap-3 py-2 text-sm outline-none">
-          <span className="flex min-w-0 flex-1 flex-col">
+          <LinkPending className="flex min-w-0 flex-1 flex-col">
             <span className="break-words group-hover:text-primary group-focus-visible:text-primary">{name}</span>
             {/* What the page states of its file beside it, a second line: a pack's size. */}
             {line.tags.length > 0 && <span className="text-muted-foreground">{line.tags.join(" · ")}</span>}
-          </span>
+          </LinkPending>
           {showHost && name !== only.host && <span className="shrink-0 text-muted-foreground">{only.host}</span>}
           <ArrowRight className="size-4 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
         </Link>

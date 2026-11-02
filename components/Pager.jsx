@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LinkPending } from "@/components/LinkPending";
 
 /**
  * Previous and next pages of a listing or a search. The sites number their pages; the next one is
@@ -21,7 +22,7 @@ export function Pager({ path, page, nextPageToken, query = {} }) {
       {page > 1 && (
         <Button asChild variant="outline" size="lg">
           <Link href={href(page - 1)}>
-            <ChevronLeft aria-hidden /> Previous
+            <ChevronLeft aria-hidden /> <LinkPending>Previous</LinkPending>
           </Link>
         </Button>
       )}
@@ -29,7 +30,7 @@ export function Pager({ path, page, nextPageToken, query = {} }) {
       {nextPageToken && (
         <Button asChild variant="outline" size="lg">
           <Link href={href(Number(nextPageToken))}>
-            Next <ChevronRight aria-hidden />
+            <LinkPending>Next</LinkPending> <ChevronRight aria-hidden />
           </Link>
         </Button>
       )}

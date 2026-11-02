@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Film } from "lucide-react";
+import { LinkPending } from "@/components/LinkPending";
 import { postHref } from "@/lib/sites";
 
 export const GRID = "grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6";
@@ -11,7 +12,9 @@ export function PostGrid({ posts }) {
       {posts.map((post, index) => (
         <li key={`${index}:${post.name}`}>
           <Link href={postHref(post.name)} className="group flex flex-col gap-2 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
-            <Poster url={post.posterUrl} className="transition group-hover:ring-2 group-hover:ring-primary" />
+            <LinkPending className="block">
+              <Poster url={post.posterUrl} className="transition group-hover:ring-2 group-hover:ring-primary" />
+            </LinkPending>
             <span className="break-words text-sm leading-snug">{post.title}</span>
           </Link>
         </li>

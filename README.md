@@ -49,7 +49,7 @@ tokens stay for a toggle later). One accent: `--primary` and `--ring` are amber-
 
 **Components**: `components/ui/` is shadcn's (button, card, badge, skeleton), never edited for one
 page. The app's own are built from them: `PostGrid` and `Poster`, `RowList`, `Pager`, `SiteTabs`,
-`SearchBox`, `ApiError`, `EmptyState`, `CopyButton`, `ExternalRedirect` (a link to another site's
+`SearchBox`, `ApiError`, `EmptyState`, `CopyButton`, `LinkPending`, `ExternalRedirect` (a link to another site's
 page: "Opening Streamtape…" while the browser goes there, with the link in case it stays).
 
 **Rules**
@@ -58,6 +58,9 @@ page: "Opening Streamtape…" while the browser goes there, with the link in cas
   `ghost`.
 - **Loading is a skeleton of the content's shape** (a route's `loading.js`), never a spinner; a
   step that takes seconds says so under it.
+  Until the skeleton shows (a link clicked before Next prefetched it: a slow network, a tap right
+  after a scroll), the clicked link pulses (`LinkPending`), only after 100 ms, so a quick one does
+  not flash.
 - **An error says what happened and what to do**: `ApiError` by the API's `code`, with *Try again*
   only when a second try can pass (`transient`, `unrecognized`).
 - **Nothing found is an empty state with the next thing to try**, not a blank page.
