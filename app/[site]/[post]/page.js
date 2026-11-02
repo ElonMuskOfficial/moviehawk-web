@@ -30,25 +30,25 @@ export default async function PostPage({ params }) {
     <SourceLink key="site" label={hostLabel(site)} url={data.url} />,
   ].filter(Boolean);
 
+  // On a phone, one column: the title, the post's details, the poster, then the links. From lg: the
+  // poster on the left, the rest on the right.
   return (
-    <article className="grid grid-cols-[5rem_minmax(0,1fr)] gap-x-4 gap-y-10 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-x-6 lg:grid-cols-[20rem_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-x-12">
-      <div className="lg:sticky lg:top-6 lg:row-span-2 lg:self-start">
+    <article className="grid grid-cols-1 lg:grid-cols-[20rem_minmax(0,1fr)] lg:grid-rows-[auto_auto_1fr] lg:gap-x-12">
+      <h1 className="min-w-0 text-lg font-semibold leading-snug sm:text-2xl lg:col-start-2 lg:row-start-1">{data.title}</h1>
+      <p className="mt-2 flex min-w-0 flex-wrap items-center gap-x-2 text-sm text-muted-foreground lg:col-start-2 lg:row-start-2">
+        {meta.map((item, index) => (
+          <Fragment key={index}>
+            {index > 0 && <span aria-hidden>·</span>}
+            {item}
+          </Fragment>
+        ))}
+      </p>
+      <div className="mt-4 w-full max-w-64 lg:sticky lg:top-6 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:max-w-none lg:self-start">
         <Poster url={data.posterUrl} eager />
       </div>
-      <header className="flex min-w-0 flex-col gap-2">
-        <h1 className="text-lg font-semibold leading-snug sm:text-2xl">{data.title}</h1>
-        <p className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
-          {meta.map((item, index) => (
-            <Fragment key={index}>
-              {index > 0 && <span aria-hidden>·</span>}
-              {item}
-            </Fragment>
-          ))}
-        </p>
-      </header>
 
       {data.sections.length ? (
-        <div className="col-span-2 flex min-w-0 max-w-3xl flex-col gap-8 lg:col-span-1 lg:col-start-2">
+        <div className="mt-8 flex min-w-0 max-w-3xl flex-col gap-8 lg:col-start-2 lg:row-start-3 lg:mt-10">
           {/* Each site's links as its own page lays them out: 4KHDHub's files in its tabs and its
               seasons' groups; HDHub4u's lines of buttons under its headings. A post can link one URL
               twice (4KHDHub's MobLand: one file under its 2160p and its 1080p episode 6): both are
@@ -60,7 +60,7 @@ export default async function PostPage({ params }) {
           )}
         </div>
       ) : (
-        <div className="col-span-2 lg:col-span-1 lg:col-start-2">
+        <div className="mt-8 lg:col-start-2 lg:row-start-3 lg:mt-10">
           <EmptyState title="This post has no links yet">A series often gets its episodes later.</EmptyState>
         </div>
       )}

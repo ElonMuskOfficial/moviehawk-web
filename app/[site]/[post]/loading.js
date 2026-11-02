@@ -1,17 +1,17 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-// A post's shape while it loads, as the page lays it out: its poster on the left, its title and a
-// section of its links on the right (on a narrow screen, a small poster beside the title).
+// A post's shape while it loads, as the page lays it out: on a phone, one column (the title, its
+// details, the poster, the links); from lg, the poster on the left of the rest.
 export default function Loading() {
   return (
-    <div className="grid grid-cols-[5rem_minmax(0,1fr)] gap-x-4 gap-y-10 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-x-6 lg:grid-cols-[20rem_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-x-12" aria-busy="true">
-      <Skeleton className="aspect-2/3 w-full rounded-lg lg:row-span-2 lg:self-start" />
-      <div className="flex flex-col gap-2">
+    <div className="grid grid-cols-1 lg:grid-cols-[20rem_minmax(0,1fr)] lg:grid-rows-[auto_auto_1fr] lg:gap-x-12" aria-busy="true">
+      <div className="flex flex-col gap-2 lg:col-start-2 lg:row-start-1">
         <Skeleton className="h-7 w-full" />
         <Skeleton className="h-7 w-2/3" />
-        <Skeleton className="h-4 w-48" />
       </div>
-      <div className="col-span-2 flex max-w-3xl flex-col gap-3 lg:col-span-1 lg:col-start-2">
+      <Skeleton className="mt-3 h-4 w-64 lg:col-start-2 lg:row-start-2" />
+      <Skeleton className="mt-4 aspect-2/3 w-full max-w-64 rounded-lg lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:max-w-none lg:self-start" />
+      <div className="mt-8 flex max-w-3xl flex-col gap-3 lg:col-start-2 lg:row-start-3 lg:mt-10">
         <Skeleton className="h-3 w-32" />
         {Array.from({ length: 6 }, (_, index) => (
           <Skeleton key={index} className="h-6 w-full" />
