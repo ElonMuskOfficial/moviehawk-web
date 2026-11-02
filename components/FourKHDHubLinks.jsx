@@ -47,7 +47,7 @@ function EpisodeRow({ line }) {
 
 /**
  * A section as 4KHDHub shows it. A season's group of episodes (`episodes`, as the engine reads it)
- * opens and closes, as on the site, its tags beside its title ("Episodes 8 · English"); the first
+ * opens and closes, as on the site, its tags under its title ("Episodes 8 · English"); the first
  * is open. Any other (a movie's "Download Links", a series' packs) is a list of files under its
  * title.
  *
@@ -62,9 +62,9 @@ function Section({ section, open }) {
   if (section.episodes) {
     return (
       <details open={open} className="group border-b border-border/60">
-        <summary className="flex cursor-pointer list-none items-center gap-3 py-3 outline-none [&::-webkit-details-marker]:hidden">
-          <ChevronRight className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" aria-hidden />
-          <span className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
+        <summary className="flex cursor-pointer list-none items-start gap-3 py-3 outline-none [&::-webkit-details-marker]:hidden">
+          <ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" aria-hidden />
+          <span className="flex min-w-0 flex-col gap-0.5">
             <span className="font-medium">{section.title}</span>
             <Tags tags={section.tags} />
           </span>
