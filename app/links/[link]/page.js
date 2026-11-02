@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ApiError } from "@/components/ApiError";
 import { CopyButton } from "@/components/CopyButton";
 import { EmptyState } from "@/components/EmptyState";
+import { ExternalRedirect } from "@/components/ExternalRedirect";
 import { LinkSection, TEXT_LINK } from "@/components/LinkLine";
 import { SourceLink } from "@/components/SourceLink";
 import { getLink } from "@/lib/api";
@@ -12,19 +13,20 @@ export async function generateMetadata({ params }) {
   const { link } = await params;
   const { data } = await getLink(link);
   if (data?.kind === "file") return { title: data.filename ?? "Download" };
+  if (data?.kind === "external") return { title: `Opening ${hostLabel(data.host)}` };
   return { title: data?.kind === "files" ? data.title ?? "Files" : "Link" };
 }
 
 // A link opens what the site would show next: a list of files to choose from, a file's downloads,
 // a post the app reads (HDHub4u's link to the title on 4KHDHub: the app's own post page), or
-// another site's page, where the user goes straight on. The API opens the pages on the way that
-// lead to one place.
+// another site's page, where the user goes straight on (a page that says so while that site loads).
+// The API opens the pages on the way that lead to one place.
 export default async function LinkPage({ params }) {
   const { link } = await params;
   const { data, error } = await getLink(link);
   if (error) return <ApiError error={error} />;
   if (data.kind === "post") redirect(postHref(data.post));
-  if (data.kind === "external") redirect(data.url);
+  if (data.kind === "external") return <ExternalRedirect url={data.url} label={hostLabel(data.host)} />;
   if (data.kind === "files") return <FileList page={data} />;
   return <Downloads file={data} />;
 }

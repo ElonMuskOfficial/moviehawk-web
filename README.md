@@ -49,7 +49,8 @@ tokens stay for a toggle later). One accent: `--primary` and `--ring` are amber-
 
 **Components**: `components/ui/` is shadcn's (button, card, badge, skeleton), never edited for one
 page. The app's own are built from them: `PostGrid` and `Poster`, `RowList`, `Pager`, `SiteTabs`,
-`SearchBox`, `ApiError`, `EmptyState`, `CopyButton`.
+`SearchBox`, `ApiError`, `EmptyState`, `CopyButton`, `ExternalRedirect` (a link to another site's
+page: "Opening Streamtape…" while the browser goes there, with the link in case it stays).
 
 **Rules**
 
