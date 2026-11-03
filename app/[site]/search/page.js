@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ApiError } from "@/components/ApiError";
 import { EmptyState } from "@/components/EmptyState";
@@ -40,9 +39,9 @@ export default async function SearchPage({ params, searchParams }) {
           {others.map((other, index) => (
             <span key={other.id}>
               {index > 0 && ", "}
-              <Link className="text-primary underline-offset-4 hover:underline" href={`/${other.id}/search?${new URLSearchParams({ q })}`}>
+              <a className="text-primary underline-offset-4 hover:underline" href={`/${other.id}/search?${new URLSearchParams({ q })}`}>
                 {other.label}
-              </Link>
+              </a>
             </span>
           ))}
           .

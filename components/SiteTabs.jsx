@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SITES } from "@/lib/sites";
 
@@ -20,7 +19,7 @@ export function SiteTabs({ active }) {
           variant={site.id === active ? "secondary" : "ghost"}
           aria-current={site.id === active ? "page" : undefined}
         >
-          <Link href={`/${site.id}`}>{site.label}</Link>
+          <a href={`/${site.id}`}>{site.label}</a>
         </Button>
       ))}
     </nav>

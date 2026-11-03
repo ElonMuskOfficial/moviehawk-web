@@ -129,25 +129,6 @@
   }
 }
 
-/* A link whose page is opening (LinkPending): it pulses once the navigation takes over 100 ms, so a
-   quick one does not flash; with reduced motion, it dims instead. */
-.link-pending {
-  animation: link-pending 1.2s ease-in-out 100ms infinite;
-}
-
-@keyframes link-pending {
-  50% {
-    opacity: 0.4;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .link-pending {
-    animation: none;
-    opacity: 0.6;
-  }
-}
-
 /* A row that scrolls sideways without showing a scrollbar (the sites' tabs on a phone). */
 @utility no-scrollbar {
   scrollbar-width: none;
