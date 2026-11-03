@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { LinkPending } from "@/components/LinkPending";
-import { linkHref } from "@/lib/sites";
+import { hostLabel, linkHref } from "@/lib/sites";
 
 // A link as text, not a box: a post's, a page of files', a download's. Its padding keeps it easy to tap.
 export const TEXT_LINK = "py-1 font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline";
@@ -46,13 +46,14 @@ export function TextLinks({ links, className = "" }) {
  * names itself ("720p x264 [850MB]", "Instant⚡Download", a logo) is the whole row, as a link. A
  * line with a title is two columns from `sm` up, whatever the title's length: the title on the
  * left, wrapping in its own column ("Season 8 [ORG 2.0 Hindi + 5.1 English] 1080p BluRay x264
- * [1.6GB/E]"), the links on the right, at the row's right edge on every line; many links (a page's
- * mirrors) wrap in their column, at most 28rem, so the title keeps its room. On a phone, too narrow
- * for both, every such line is its title, then its links under it. A line of links alone (mirrors)
- * wraps from the left.
+ * [1.6GB/E]"), the links on the right, at the row's right edge on every line, as wide as they need
+ * while the title keeps 12rem; past that they wrap in their column. On a phone, too narrow for both,
+ * every such line is its title, then its links under it. A line of links alone (mirrors) wraps from
+ * the left.
  *
  * @param {{ line: ApiLine, showHost?: boolean }} props showHost: beside a link alone, the site it is
- *   on ("hubcdn"): on a page of files, where the hosts differ; not on a post, where it is a gateway
+ *   on, as the app names it ("HubCDN", "V-Cloud"): on a page of files, where the hosts differ; not on
+ *   a post, where it is a gateway
  */
 export function LinkLine({ line, showHost = false }) {
   const [only] = line.links;
@@ -66,7 +67,8 @@ export function LinkLine({ line, showHost = false }) {
             {/* What the page states of its file beside it, a second line: a pack's size. */}
             {line.tags.length > 0 && <span className="text-muted-foreground">{line.tags.join(" · ")}</span>}
           </LinkPending>
-          {showHost && name !== only.host && <span className="shrink-0 text-muted-foreground">{only.host}</span>}
+          {/* Not when the link names its host itself ("HubCloud", "gofile"). */}
+          {showHost && ![only.host, hostLabel(only.host)].includes(name) && <span className="shrink-0 text-muted-foreground">{hostLabel(only.host)}</span>}
           <ArrowRight className="size-4 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
         </Link>
       </li>
@@ -80,9 +82,9 @@ export function LinkLine({ line, showHost = false }) {
     );
   }
   return (
-    <li className="flex min-h-11 flex-col gap-y-1 py-2 text-sm sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-6">
+    <li className="flex min-h-11 flex-col gap-y-1 py-2 text-sm sm:grid sm:grid-cols-[minmax(12rem,1fr)_auto] sm:items-baseline sm:gap-x-6">
       <span className="min-w-0 break-words">{line.title}</span>
-      <TextLinks links={line.links} className="sm:max-w-md sm:justify-end" />
+      <TextLinks links={line.links} className="sm:justify-end" />
     </li>
   );
 }
@@ -94,16 +96,22 @@ export function SectionTitle({ children }) {
 
 /**
  * A section of lines of links: its title, if the site gives one, then its lines, under faint rules.
+ * On a page of files (showHost), a line of links alone (NexDrive's servers, a box of mirrors) is a
+ * row per link, its host beside it, as a file's downloads are: one row of six would wrap. Not on a
+ * post, where such a line is one episode's buttons ("EPiSODE 1 · WATCH").
  *
  * @param {{ title: string | null, lines: ApiLine[], showHost?: boolean }} props showHost: as LinkLine's
  */
 export function LinkSection({ title, lines, showHost = false }) {
+  const rows = showHost
+    ? lines.flatMap((line) => (line.title === null && line.links.length > 1 ? line.links.map((link) => ({ title: null, tags: [], links: [link] })) : [line]))
+    : lines;
   return (
     <section className="flex flex-col gap-1">
       {title && <SectionTitle>{title}</SectionTitle>}
       <ul className="divide-y divide-border/60" aria-label={title ?? "Links"}>
         {/* Keys are positions: a page can repeat a line. */}
-        {lines.map((line, index) => (
+        {rows.map((line, index) => (
           <LinkLine key={index} line={line} showHost={showHost} />
         ))}
       </ul>

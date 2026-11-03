@@ -73,14 +73,17 @@ function FileList({ page }) {
 }
 
 /**
- * One way to download, as a line of text: its server on the left, its actions on the right. A
- * direct download (the file itself): Download · Copy · VLC (on a phone); a page that leads to the file: Open ↗.
+ * One way to download, as a line of text: its server on the left, wrapping in its own column, its
+ * actions on the right. A direct download (the file itself): Download · Copy · VLC (on a phone),
+ * under its server on a phone, as a post's lines (LinkLine): beside "Download [Server : 10Gbps]" it
+ * leaves the label 140 px at 360 px. A page that leads to the file: Open ↗, beside its server on
+ * every screen, as it fits.
  *
  * @param {{ download: import("@/lib/api").Download }} props
  */
 function DownloadLine({ download }) {
   return (
-    <li className="flex min-h-11 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-2 text-sm">
+    <li className={`min-h-11 py-2 text-sm ${download.kind === "direct" ? "flex flex-col gap-y-1 sm:grid" : "grid"} grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6`}>
       <span className="min-w-0 break-words">{download.label}</span>
       {download.kind === "direct" ? (
         <span className="flex items-baseline gap-x-2">

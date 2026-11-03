@@ -36,12 +36,12 @@ function FileRow({ line }) {
  */
 function EpisodeRow({ line }) {
   return (
-    <li className="flex min-h-11 flex-col gap-y-1 py-2 text-sm sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-6" title={line.file ?? undefined}>
+    <li className="flex min-h-11 flex-col gap-y-1 py-2 text-sm sm:grid sm:grid-cols-[minmax(12rem,1fr)_auto] sm:items-baseline sm:gap-x-6" title={line.file ?? undefined}>
       <span className="min-w-0 break-words">
         {line.title ?? "Episode"}
         {line.tags.length > 0 && <span className="text-muted-foreground"> · {line.tags.join(" · ")}</span>}
       </span>
-      <TextLinks links={line.links} className="sm:max-w-md sm:justify-end" />
+      <TextLinks links={line.links} className="sm:justify-end" />
     </li>
   );
 }
