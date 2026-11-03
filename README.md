@@ -13,7 +13,8 @@ npm run build
 
 Next.js 16 (App Router, JavaScript), Tailwind CSS 4, shadcn/ui (`radix-vega`, `neutral`, JSX).
 Deployed on Vercel, with `MOVIEHAWK_API_URL` set in its environment to the API's deployment,
-https://moviehawk.vercel.app (also on Vercel, in `bom1`, the region of this app's functions).
+https://moviehawk.vercel.app (also on Vercel). Each project's settings choose its functions'
+region; the two are best in one.
 
 ## Pages
 
