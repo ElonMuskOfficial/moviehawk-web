@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: { default: "MovieHawk", template: "%s · MovieHawk" },
-  description: "Movies and series from HDHub4u and 4KHDHub, down to their downloads.",
+  description: "Movies and series from HDHub4u, 4KHDHub, Vegamovies and RogMovies, down to their downloads.",
 };
 
 // Dark only: posters read best on it. The light tokens stay in globals.css for a toggle later.

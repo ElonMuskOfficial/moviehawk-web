@@ -22,10 +22,14 @@ const bare = (text) => text.toLowerCase().replace(/^https?:\/\//, "").replace(/^
  */
 export const nameOf = (link) => (link.label && !bare(link.url).startsWith(bare(link.label)) ? link.label : link.host);
 
-/** @param {ApiLink[]} links A line's links, as text: "Drive · Instant · Direct". */
-export function TextLinks({ links }) {
+/**
+ * A line's links, as text: "Drive · Instant · Direct".
+ *
+ * @param {{ links: ApiLink[], className?: string }} props
+ */
+export function TextLinks({ links, className = "" }) {
   return (
-    <span className="flex flex-wrap items-baseline gap-x-2">
+    <span className={`flex flex-wrap items-baseline gap-x-2 ${className}`}>
       {/* A line can link one URL twice: both are shown, as the site shows them; so keys are positions. */}
       {links.map((link, index) => (
         <Fragment key={`${index}:${link.name}`}>
@@ -39,9 +43,13 @@ export function TextLinks({ links }) {
 
 /**
  * One line of links, as every page lays it out (a post's, a page of files'). A link alone that
- * names itself ("720p x264 [850MB]", "Instant⚡Download", a logo) is the whole row, as a link; any
- * other line is its title on the left ("480p"), its links on the right ("Drive · Instant · Direct");
- * a line of links alone (mirrors) wraps from the left.
+ * names itself ("720p x264 [850MB]", "Instant⚡Download", a logo) is the whole row, as a link. A
+ * line with a title is two columns from `sm` up, whatever the title's length: the title on the
+ * left, wrapping in its own column ("Season 8 [ORG 2.0 Hindi + 5.1 English] 1080p BluRay x264
+ * [1.6GB/E]"), the links on the right, at the row's right edge on every line; many links (a page's
+ * mirrors) wrap in their column, at most 28rem, so the title keeps its room. On a phone, too narrow
+ * for both, every such line is its title, then its links under it. A line of links alone (mirrors)
+ * wraps from the left.
  *
  * @param {{ line: ApiLine, showHost?: boolean }} props showHost: beside a link alone, the site it is
  *   on ("hubcdn"): on a page of files, where the hosts differ; not on a post, where it is a gateway
@@ -64,10 +72,17 @@ export function LinkLine({ line, showHost = false }) {
       </li>
     );
   }
+  if (!line.title) {
+    return (
+      <li className="flex min-h-11 items-center py-2 text-sm">
+        <TextLinks links={line.links} />
+      </li>
+    );
+  }
   return (
-    <li className={`flex min-h-11 flex-wrap items-baseline gap-x-6 gap-y-1 py-2 text-sm ${line.title ? "justify-between" : ""}`}>
-      {line.title && <span className="min-w-24 break-words">{line.title}</span>}
-      <TextLinks links={line.links} />
+    <li className="flex min-h-11 flex-col gap-y-1 py-2 text-sm sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-6">
+      <span className="min-w-0 break-words">{line.title}</span>
+      <TextLinks links={line.links} className="sm:max-w-md sm:justify-end" />
     </li>
   );
 }

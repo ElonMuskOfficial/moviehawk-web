@@ -147,3 +147,11 @@
     opacity: 0.6;
   }
 }
+
+/* A row that scrolls sideways without showing a scrollbar (the sites' tabs on a phone). */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
