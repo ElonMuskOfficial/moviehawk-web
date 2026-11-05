@@ -37,8 +37,8 @@ An API name is the app's path (`links/...` → `/links/...`); a post's drops `si
 - **`cache: "no-store"`, always.** The API keeps each answer as long as it stays true. Next's
   default would keep a page that reads no request-time API (a post, a file) for good, and a file's
   downloads expire.
-- **A 404 is `notFound()`; any other failure is returned**, `{ error: { status, code, detail } }`,
-  and the page shows it with `ApiError`. In production Next hides a thrown error's message, so
+- **Every API failure is returned**, a 404 too, `{ error: { status, code, detail } }`, and the
+  page shows it with `ApiError`: its detail names the site that answered. In production Next hides a thrown error's message, so
   `app/error.js` is for bugs only.
 - A route with `loading.js` streams, so its not-found and redirects answer HTTP 200 (with
   `noindex`, and a refresh to the redirect's target): Next's own behaviour.
@@ -61,7 +61,9 @@ page: "Opening Streamtape…" while the browser goes there, with the link in cas
 - **Loading is a skeleton of the content's shape** (a route's `loading.js`), never a spinner; a
   step that takes seconds says so under it.
 - **An error says what happened and what to do**: `ApiError` by the API's `code`, with *Try again*
-  only when a second try can pass (`transient`, `unrecognized`).
+  only when a second try can pass (`transient`, `unrecognized`), and *Back* for a page the site
+  removed (`notFound`: "It's no longer on the site", "vcloud.beer answered HTTP 404"), to choose
+  another server where it was listed.
 - **Nothing found is an empty state with the next thing to try**, not a blank page.
 - **The sites' words as they are**: a link's label, a file's name, a server's label.
 - **Mobile first**: the grid is 2, 3, 4 then 6 columns (`sm`, `md`, `lg`); a touch target is at
