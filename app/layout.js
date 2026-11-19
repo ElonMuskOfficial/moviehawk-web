@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,6 +33,8 @@ export default function RootLayout({ children }) {
           </div>
         </header>
         <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6">{children}</main>
+        {/* Vercel Web Analytics: visitors and page views, no cookies; counts only on Vercel's deploys */}
+        <Analytics />
       </body>
     </html>
   );
